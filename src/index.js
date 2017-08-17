@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import express_validator from 'express-validator';
 
 import users from './users';
+import events from './events';
 
 const app = express();
 
@@ -17,6 +18,7 @@ app.get('/', function(req, res) {
 });
 
 app.use('/users', users);
+app.use('/events', events);
 
 app.listen(3000, function() {
   console.log('Example app listening on port 3000!');
