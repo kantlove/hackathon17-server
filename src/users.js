@@ -65,29 +65,37 @@ router.post('/follow', function(req, res) {
     const user_name = req.body.user_name;
     const follow_name = req.body.follow_name;
 
-    // Check if that user exists
-    UserModel.findOne({ name: follow_name }).exec()
-      .then(function(follow_user) {
-        if(!follow_user) throw `Cannot find user ${follow_name}`;
+    // Check if user exists
+    UserModel.findOne({ name: user_name }).exec()
+      .then(function(this_user) {
+        if(!this_user) throw new Error(`Cannot find user ${user_name}`);
 
-        // Update for this user
-        UserModel.findOneAndUpdate(
-          { name: user_name }, 
-          { $addToSet: { follows: follow_name }}
-        ).exec()
-          .then(function() {
-            // Update follow target
-            follow_user.update({ $addToSet: { followers: user_name }}).exec()
+        UserModel.findOne({ name: follow_name }).exec()
+          .then(function(follow_user) {
+            if(!follow_user) throw new Error(`Cannot find user ${follow_name}`);
+    
+            // Update for this user
+            UserModel.findOneAndUpdate(
+              { name: user_name }, 
+              { $addToSet: { follows: follow_name }}
+            ).exec()
               .then(function() {
-                console.log(`User ${user_name} follows user ${follow_name}`);
-                res.sendStatus(200);
+                // Update follow target
+                follow_user.update({ $addToSet: { followers: user_name }}).exec()
+                  .then(function() {
+                    console.log(`User ${user_name} follows user ${follow_name}`);
+                    res.sendStatus(200);
+                  })
+                  .catch(function(reason) {
+                    throw new Error(reason);
+                  });
               })
               .catch(function(reason) {
-                throw reason;
+                throw new Error(reason);
               });
           })
           .catch(function(reason) {
-            throw reason;
+            throw new Error(reason);
           });
       })
       .catch(function(reason) {
