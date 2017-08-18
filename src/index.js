@@ -3,6 +3,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import express_validator from 'express-validator';
 
+import config from './config';
 import users from './users';
 import events from './events';
 
@@ -20,6 +21,6 @@ app.get('/', function(req, res) {
 app.use('/users', users);
 app.use('/events', events);
 
-app.listen(3000, function() {
-  console.log('Example app listening on port 3000!');
+app.listen(config.PORT, function() {
+  console.log(`App is listening on port ${config.PORT}!`);
 });
