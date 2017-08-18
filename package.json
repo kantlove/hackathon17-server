@@ -23,7 +23,8 @@
   "homepage": "https://github.com/kantlove/hackathon17-server#readme",
   "engines": {
     "node": "6.11.x",
-    "npm": "3.10.x"
+    "npm": "3.10.x",
+    "yarn": "0.27.5"
   },
   "dependencies": {
     "babel-cli": "^6.24.1",
