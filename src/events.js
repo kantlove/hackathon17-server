@@ -36,21 +36,21 @@ router.post('/', function(req, res) {
     }
 
     const event_name = req.body.name;
-    const creator = req.body.field;
-    const time = req.body.field;
-    const location = req.body.field;
+    const event_creator = req.body.creator;
+    const event_time = req.body.time;
+    const event_location = req.body.location;
   
-    UserModel.create({ 
+    EventModel.create({ 
       name: event_name,
-      creator: creator,
-      time: time,
-      location: location
+      creator: event_creator,
+      time: event_time,
+      location: event_location
     })
       .then(function() {
         res.sendStatus(200);
       })
       .catch(function(err) {
-        res.status(400).send(`Failed to create user ${event_name}. ${err}`);
+        res.status(400).send(`Failed to create event ${event_name}. ${err}`);
       });
   });
 });
